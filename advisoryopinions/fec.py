@@ -18,6 +18,9 @@ def scrape_page(page_num: int) -> None:
     response = requests.get(page_url).content
     rows = json.loads(response)
 
+    if len(rows["advisory_opinions"]) == 0:
+        return False
+
     for row in rows["advisory_opinions"]:
         url = f"https://www.fec.gov/data/legal/advisory-opinions/{row['ao_no']}/"
         ao = AdvisoryOpinion(
