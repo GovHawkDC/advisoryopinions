@@ -21,7 +21,6 @@ def scrape_page(page_num: int) -> None:
     for row in page.xpath("//li[contains(@class,'usa-card')]"):
         pubdate = row.xpath(".//span[contains(@class,'text-base-dark')]/text()")[0]
         pubdate = pubdate.replace("Posted ", "").replace("Updated ","")
-        print(pubdate)
         pubdate = dateutil.parser.parse(pubdate)
         link = row.xpath(".//h2[contains(@class,'usa-card__heading')]/a")[0]
         url = link.xpath("@href")[0]
@@ -61,6 +60,7 @@ def scrape_page(page_num: int) -> None:
 
     return True
 
+# TODO: OGC https://www.hhs.gov/about/agencies/ogc/advisory-opinions/index.html
 
 def scrape():
     # scrape until we hit an item we've already seen
