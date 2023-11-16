@@ -20,7 +20,7 @@ def scrape_page(page_num: int) -> None:
 
     for row in page.xpath("//li[contains(@class,'usa-card')]"):
         pubdate = row.xpath(".//span[contains(@class,'text-base-dark')]/text()")[0]
-        pubdate = pubdate.replace("Posted ", "").replace("Updated ","")
+        pubdate = pubdate.replace("Posted ", "").replace("Updated ", "")
         pubdate = dateutil.parser.parse(pubdate)
         link = row.xpath(".//h2[contains(@class,'usa-card__heading')]/a")[0]
         url = link.xpath("@href")[0]
@@ -32,11 +32,11 @@ def scrape_page(page_num: int) -> None:
         ao = AdvisoryOpinion(
             "Health and Human Sevices",
             "HHS",
-            internal_id,
             pubdate,
             title,
             url,
             subagency="Office of the Inspector General",
+            identifier=internal_id,
             summary=summary,
         )
 
@@ -46,9 +46,7 @@ def scrape_page(page_num: int) -> None:
 
         for doc in child_page.xpath("//a[contains(@class,'pep-document__link')]"):
             ao.add_attachment(
-                doc.xpath("text()")[0].strip(),
-                doc.xpath("@href")[0],
-                "application/pdf"
+                doc.xpath("text()")[0].strip(), doc.xpath("@href")[0], "application/pdf"
             )
 
         logging.info(ao)
@@ -60,7 +58,9 @@ def scrape_page(page_num: int) -> None:
 
     return True
 
+
 # TODO: OGC https://www.hhs.gov/about/agencies/ogc/advisory-opinions/index.html
+
 
 def scrape():
     # scrape until we hit an item we've already seen

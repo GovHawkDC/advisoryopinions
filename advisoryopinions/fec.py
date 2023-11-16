@@ -12,36 +12,35 @@ logging.basicConfig(level=logging.INFO)
 def scrape_page(page_num: int) -> None:
     from_hit = page_num * 100
     # Key available from https://api.open.fec.gov/developers/
-    api_key = os.environ['API_KEY']
-    page_url = (
-        f"https://api.open.fec.gov/v1/legal/search?api_key={api_key}&type=advisory_opinions&ao_category=F&from_hit={from_hit}&hits_returned=100"
-    )
+    api_key = os.environ["API_KEY"]
+    page_url = f"https://api.open.fec.gov/v1/legal/search?api_key={api_key}&type=advisory_opinions&ao_category=F&from_hit={from_hit}&hits_returned=100"
     logging.info(f"Fetching page {page_num}, {page_url}")
     response = requests.get(page_url).content
     rows = json.loads(response)
 
-    for row in rows['advisory_opinions']:
+    for row in rows["advisory_opinions"]:
         url = f"https://www.fec.gov/data/legal/advisory-opinions/{row['ao_no']}/"
         ao = AdvisoryOpinion(
             "Federal Election Commission",
             "FEC",
-            row['ao_no'], 
-            dateutil.parser.parse(row['issue_date']),
-            row['name'],
+            dateutil.parser.parse(row["issue_date"]),
+            row["name"],
             url,
-            summary=row['summary']
+            identifier=row["ao_no"],
+            summary=row["summary"],
         )
 
-        for doc in row['documents']:
+        for doc in row["documents"]:
             doc_url = f"https://www.fec.gov{doc['url']}"
-            ao.add_attachment(doc['description'], doc_url, "application/pdf")
+            ao.add_attachment(doc["description"], doc_url, "application/pdf")
 
         is_new = ao.save()
         if not is_new:
             logging.info("Seen item, stopping scrape.")
             return False
-        
+
     return True
+
 
 def scrape():
     # scrape until we hit an item we've already seen

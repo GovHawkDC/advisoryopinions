@@ -33,7 +33,12 @@ def scrape_page(page_num: int) -> None:
         internal_id = ""
 
         ao = AdvisoryOpinion(
-            "Federal Trade Commission", "FTC", internal_id, pubdate, title, url
+            "Federal Trade Commission",
+            "FTC",
+            pubdate,
+            title,
+            url,
+            identifier=internal_id,
         )
 
         file_links = row.xpath(".//div[contains(@class,'file')]/a")

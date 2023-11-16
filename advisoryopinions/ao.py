@@ -20,7 +20,6 @@ class Attachment:
 class AdvisoryOpinion:
     agency: str
     agency_short: str
-    identifier: str
     published: datetime = field(
         metadata=config(
             encoder=datetime.isoformat,
@@ -32,6 +31,7 @@ class AdvisoryOpinion:
     url: str
     attachments: List[Attachment] = field(default_factory=list)
     classification: str = "advisory-opinion"
+    identifier: str = ""
     subagency: str = ""
     summary: str = ""
 
@@ -50,7 +50,7 @@ class AdvisoryOpinion:
             if self.url.strip() == "":
                 raise Exception(f"Invalid URL: {self.url}")
             self.identifier = hashlib.sha256(self.url.encode("utf-8")).hexdigest()
-        
+
         self.identifier = self.identifier.strip().replace(" ", "-")
         self.identifier = f"{self.agency_short}-{self.identifier}"
 
