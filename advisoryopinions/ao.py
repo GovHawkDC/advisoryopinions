@@ -36,7 +36,7 @@ class AdvisoryOpinion:
     summary: str = ""
 
     def add_attachment(self, title, url, mimetype) -> None:
-        # sure this shouldn't be "self._package.append(param)"?
+        title = title.strip()
         attachment = Attachment(title, url, mimetype)
         self.attachments.append(attachment)
 
@@ -44,6 +44,8 @@ class AdvisoryOpinion:
         return f"{self.agency_short} - {self.published.strftime('%Y-%m-%d')} {self.identifier} {self.title.strip()}"
 
     def save(self) -> bool:
+        self.title = self.title.strip()
+        self.summary = self.summary.strip()
         date = self.published.strftime("%Y-%m-%d")
 
         if self.identifier == "":
