@@ -1,7 +1,6 @@
 import dateutil.parser
 import logging
 import lxml.html
-import re
 import requests
 
 from ao import AdvisoryOpinion

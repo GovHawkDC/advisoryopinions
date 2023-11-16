@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json, config
 from datetime import datetime
 import hashlib
