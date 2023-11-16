@@ -3,7 +3,7 @@ import logging
 import lxml.html
 import requests
 
-from ao import AdvisoryOpinion
+from .ao import AdvisoryOpinion
 
 logging.basicConfig(level=logging.INFO)
 
@@ -53,6 +53,3 @@ def scrape_opinions() -> None:
 
 def scrape():
     scrape_opinions()
-
-
-scrape()

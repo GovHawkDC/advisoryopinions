@@ -3,7 +3,7 @@ import logging
 import lxml.html
 import requests
 
-from ao import AdvisoryOpinion
+from .ao import AdvisoryOpinion
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,7 +37,6 @@ def scrape() -> None:
             url,
             subagency="Bureau of Industry and Security",
         )
-        logging.info(ao)
 
         ao.add_attachment(title, url, "application/pdf")
 
@@ -49,6 +48,3 @@ def scrape() -> None:
             return False
 
     return True
-
-
-scrape()

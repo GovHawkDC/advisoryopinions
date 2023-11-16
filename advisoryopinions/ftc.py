@@ -4,7 +4,7 @@ import lxml.html
 import re
 import requests
 
-from ao import AdvisoryOpinion
+from .ao import AdvisoryOpinion
 
 logging.basicConfig(level=logging.INFO)
 
@@ -70,6 +70,3 @@ def scrape():
         all_new = scrape_page(page)
         if not all_new:
             return
-
-
-scrape()

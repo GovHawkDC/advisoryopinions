@@ -18,3 +18,6 @@ flake8 = "^6.1.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+scrape = "advisoryopinions.scrape:scrape"

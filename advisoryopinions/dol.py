@@ -3,7 +3,7 @@ import logging
 import lxml.html
 import requests
 
-from ao import AdvisoryOpinion
+from .ao import AdvisoryOpinion
 
 logging.basicConfig(level=logging.INFO)
 
@@ -18,8 +18,7 @@ def scrape_page(page_num: int) -> None:
     if not page.xpath("//table[contains(@class,'dol-table')]"):
         return False
 
-    # somtimes the first item on a page is a dupe, so keep a counter
-
+    # sometimes the first item on a page is a dupe, so keep a counter
     ct = 0
     for row in page.xpath("//table[contains(@class,'dol-table')]/tbody/tr"):
         ct += 1
@@ -66,6 +65,3 @@ def scrape():
         all_new = scrape_page(page)
         if not all_new:
             return
-
-
-scrape()
