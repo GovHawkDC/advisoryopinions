@@ -32,6 +32,7 @@ class AdvisoryOpinion:
     url: str
     attachments: List[Attachment] = field(default_factory=list)
     classification: str = "advisory-opinion"
+    subagency: str = ""
     summary: str = ""
 
     def add_attachment(self, title, url, mimetype) -> None:
@@ -50,6 +51,7 @@ class AdvisoryOpinion:
                 raise Exception(f"Invalid URL: {self.url}")
             self.identifier = hashlib.sha256(self.url.encode("utf-8")).hexdigest()
         
+        self.identifier = self.identifier.strip().replace(" ", "-")
         self.identifier = f"{self.agency_short}-{self.identifier}"
 
         path = f"data/{self.agency_short}/"
