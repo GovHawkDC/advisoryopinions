@@ -4,7 +4,7 @@ import argparse
 def scrape() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "agency", type=str, help="Agency to scrape."
+        "agency", type=str, help="Abbreviation of agency to scrape. e.g. doj"
     )
     args = parser.parse_args()
 
