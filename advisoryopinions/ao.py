@@ -32,6 +32,7 @@ class AdvisoryOpinion:
     url: str
     attachments: List[Attachment] = field(default_factory=list)
     classification: str = "advisory-opinion"
+    summary: str = ""
 
     def add_attachment(self, title, url, mimetype) -> None:
         # sure this shouldn't be "self._package.append(param)"?
