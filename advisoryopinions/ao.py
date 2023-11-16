@@ -46,7 +46,11 @@ class AdvisoryOpinion:
         date = self.published.strftime("%Y-%m-%d")
 
         if self.identifier == "":
+            if self.url.strip() == "":
+                raise Exception(f"Invalid URL: {self.url}")
             self.identifier = hashlib.sha256(self.url.encode("utf-8")).hexdigest()
+        
+        self.identifier = f"{self.agency_short}-{self.identifier}"
 
         path = f"data/{self.agency_short}/"
         filename = f"{path}/{date}-{self.identifier}.json"
