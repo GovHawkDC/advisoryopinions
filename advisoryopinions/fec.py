@@ -2,7 +2,6 @@ import dateutil.parser
 import json
 import logging
 import os
-import re
 import requests
 
 from ao import AdvisoryOpinion
@@ -29,7 +28,8 @@ def scrape_page(page_num: int) -> None:
             row['ao_no'], 
             dateutil.parser.parse(row['issue_date']),
             row['name'],
-            url
+            url,
+            summary=row['summary']
         )
 
         for doc in row['documents']:
