@@ -4,6 +4,21 @@ name: Run Scraper
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
+  schedule:
+    # cfpb
+    - cron: "15 5 * * *"
+    # doc
+    - cron: "30 5 * * *"
+    # doj
+    - cron: "45 5 * * *"
+    # dol
+    - cron: "1 6 * * *"
+    # fec
+    - cron: "15 6 * * *"
+    # ftc
+    - cron: "30 6 * * *"
+    # hhs
+    - cron: "45 6 * * *"
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
@@ -60,6 +75,39 @@ jobs:
       if: steps.cache-deps.outputs.cache-hit != 'true'
 
     - run: poetry install --no-interaction
+
+    # we want to run the scraper at different times for different agencies,
+    # and this is the best way i've found so far. 
+    # see https://github.com/orgs/community/discussions/25928
+    - name: setenv
+      if: github.event.schedule=='15 5 * * *'
+      run: |
+        echo "::set-env name=source::cfpb"
+    - name: setenv
+      if: github.event.schedule=='30 5 * * *'
+      run: |
+        echo "::set-env name=source::doc"
+    - name: setenv
+      if: github.event.schedule=='45 5 * * *'
+      run: |
+        echo "::set-env name=source::doj"
+    - name: setenv
+      if: github.event.schedule=='1 6 * * *'
+      run: |
+        echo "::set-env name=source::dol"
+    - name: setenv
+      if: github.event.schedule=='15 6 * * *'
+      run: |
+        echo "::set-env name=source::fec"
+    - name: setenv
+      if: github.event.schedule=='30 6 * * *'
+      run: |
+        echo "::set-env name=source::ftc"
+    - name: setenv
+      if: github.event.schedule=='45 6 * * *'
+      run: |
+        echo "::set-env name=source::hhs"
+
 
     - run: poetry run scrape ${{ inputs.source }}
 
