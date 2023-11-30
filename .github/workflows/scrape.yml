@@ -5,20 +5,8 @@ name: Run Scraper
 # or API.
 on:
   schedule:
-    # cfpb
-    - cron: "15 5 * * *"
-    # doc
-    - cron: "30 5 * * *"
-    # doj
-    - cron: "45 5 * * *"
-    # dol
-    - cron: "1 6 * * *"
-    # fec
-    - cron: "15 6 * * *"
-    # ftc
-    - cron: "30 6 * * *"
-    # hhs
-    - cron: "45 6 * * *"
+    - cron: "42 14 * * *"
+
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
@@ -33,6 +21,11 @@ on:
 
 jobs:
   scrape:
+    strategy:
+      matrix:
+        source:
+          [cfpb, doc, doj, doi, fec, ftc, hhs]
+
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -76,40 +69,10 @@ jobs:
 
     - run: poetry install --no-interaction
 
-    # we want to run the scraper at different times for different agencies,
-    # and this is the best way i've found so far. 
-    # see https://github.com/orgs/community/discussions/25928
-    - name: setenv
-      if: github.event.schedule=='15 5 * * *'
-      run: |
-        echo "::set-env name=source::cfpb"
-    - name: setenv
-      if: github.event.schedule=='30 5 * * *'
-      run: |
-        echo "::set-env name=source::doc"
-    - name: setenv
-      if: github.event.schedule=='45 5 * * *'
-      run: |
-        echo "::set-env name=source::doj"
-    - name: setenv
-      if: github.event.schedule=='1 6 * * *'
-      run: |
-        echo "::set-env name=source::dol"
-    - name: setenv
-      if: github.event.schedule=='15 6 * * *'
-      run: |
-        echo "::set-env name=source::fec"
-    - name: setenv
-      if: github.event.schedule=='30 6 * * *'
-      run: |
-        echo "::set-env name=source::ftc"
-    - name: setenv
-      if: github.event.schedule=='45 6 * * *'
-      run: |
-        echo "::set-env name=source::hhs"
-
-
-    - run: poetry run scrape ${{ inputs.source }}
+    - if: ${{ github.event_name == 'workflow_dispatch' }}
+      run: poetry run scrape ${{ input.source }}
+    - if: ${{ github.event_name == 'schedule' }}
+      run: poetry run scrape ${{ matrix.source }}
 
     # publish the generated data files to github
     - uses: mikeal/publish-to-github-action@master
