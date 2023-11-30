@@ -5,7 +5,7 @@ name: Run Scraper
 # or API.
 on:
   schedule:
-    - cron: "3 15 * * *"
+    - cron: "40 16 * * *"
 
   workflow_dispatch:
     # Inputs the workflow accepts.
