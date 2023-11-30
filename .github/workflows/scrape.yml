@@ -5,7 +5,7 @@ name: Run Scraper
 # or API.
 on:
   schedule:
-    - cron: "42 14 * * *"
+    - cron: "3 15 * * *"
 
   workflow_dispatch:
     # Inputs the workflow accepts.
@@ -70,7 +70,7 @@ jobs:
     - run: poetry install --no-interaction
 
     - if: ${{ github.event_name == 'workflow_dispatch' }}
-      run: poetry run scrape ${{ input.source }}
+      run: poetry run scrape ${{ inputs.source }}
     - if: ${{ github.event_name == 'schedule' }}
       run: poetry run scrape ${{ matrix.source }}
 
