@@ -5,7 +5,7 @@ name: Run Scraper
 # or API.
 on:
   schedule:
-    - cron: "54 16 * * *"
+    - cron: "05 14 * * *"
 
   workflow_dispatch:
     # Inputs the workflow accepts.
@@ -76,7 +76,7 @@ jobs:
         FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
     - if: ${{ github.event_name == 'schedule' }}
       run: poetry run scrape ${{ matrix.source }}
-      secrets:
+      env:
         FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
     # publish the generated data files to github
     - uses: mikeal/publish-to-github-action@master
