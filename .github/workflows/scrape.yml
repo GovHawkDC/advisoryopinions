@@ -5,7 +5,7 @@ name: Run Scraper
 # or API.
 on:
   schedule:
-    - cron: "05 14 * * *"
+    - cron: "40 15 * * *"
 
   workflow_dispatch:
     # Inputs the workflow accepts.
@@ -72,7 +72,7 @@ jobs:
 
     - if: ${{ github.event_name == 'workflow_dispatch' }}
       run: poetry run scrape ${{ inputs.source }}
-      secrets:
+      env:
         FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
     - if: ${{ github.event_name == 'schedule' }}
       run: poetry run scrape ${{ matrix.source }}
