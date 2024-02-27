@@ -27,7 +27,7 @@ jobs:
           [cfpb, doc, doj, dol, fec, ftc, hhs]
       fail-fast: false
     secrets:
-      FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+      FEC_API_KEY: '${{ secrets.FEC_API_KEY }}'
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
