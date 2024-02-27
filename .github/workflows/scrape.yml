@@ -34,7 +34,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
@@ -75,11 +74,11 @@ jobs:
     - if: ${{ github.event_name == 'workflow_dispatch' }}
       run: poetry run scrape ${{ inputs.source }}
       env:
-        FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        FEC_API_KEY: '${{ secrets.FEC_API_KEY }}'
     - if: ${{ github.event_name == 'schedule' }}
       run: poetry run scrape ${{ matrix.source }}
       env:
-        FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        FEC_API_KEY: '${{ secrets.FEC_API_KEY }}'
     # publish the generated data files to github
     - uses: mikeal/publish-to-github-action@master
       env:
