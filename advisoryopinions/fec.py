@@ -13,8 +13,11 @@ def scrape_page(page_num: int) -> None:
     from_hit = page_num * 100
     # Key available from https://api.open.fec.gov/developers/
     api_key = os.environ["FEC_API_KEY"]
+
     page_url = f"https://api.open.fec.gov/v1/legal/search?api_key={api_key}&type=advisory_opinions&ao_category=F&from_hit={from_hit}&hits_returned=100"
-    logging.info(f"Fetching page {page_num}, {page_url}")
+    log_url = page_url.replace(api_key, "API_KEY_HERE")
+    logging.info(f"Fetching page {page_num}, {log_url}")
+    
     response = requests.get(page_url).content
     rows = json.loads(response)
 
