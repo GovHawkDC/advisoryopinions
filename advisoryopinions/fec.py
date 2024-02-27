@@ -14,6 +14,10 @@ def scrape_page(page_num: int) -> None:
     # Key available from https://api.open.fec.gov/developers/
     api_key = os.environ["FEC_API_KEY"]
 
+    if (api_key == ""):
+        logging.error("FEC_API_KEY is required.")
+        return False
+
     page_url = f"https://api.open.fec.gov/v1/legal/search?api_key={api_key}&type=advisory_opinions&ao_category=F&from_hit={from_hit}&hits_returned=100"
     log_url = page_url.replace(api_key, "API_KEY_HERE")
     logging.info(f"Fetching page {page_num}, {log_url}")
