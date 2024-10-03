@@ -30,10 +30,16 @@ def scrape_page(page_num: int) -> None:
 
     for row in rows["advisory_opinions"]:
         url = f"https://www.fec.gov/data/legal/advisory-opinions/{row['ao_no']}/"
+
+        pubdate = row["issue_date"]
+        if not pubdate:
+            pubdate = row["documents"][-1]["date"]
+
+
         ao = AdvisoryOpinion(
             "Federal Election Commission",
             "FEC",
-            dateutil.parser.parse(row["issue_date"]),
+            dateutil.parser.parse(pubdate),
             row["name"],
             url,
             identifier=row["ao_no"],
