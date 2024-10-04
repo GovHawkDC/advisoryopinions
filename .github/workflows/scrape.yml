@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         source:
-          [cfpb, doc, doj, dol, fec, ftc, hhs]
+          [cfpb, doc, doj, dol, fec, ftc, hhs, lsc]
       fail-fast: false
 
     # The type of runner that the job will run on
